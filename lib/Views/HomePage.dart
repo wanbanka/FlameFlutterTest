@@ -39,9 +39,15 @@ class _HomePageState extends StateMVC<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+            myGame.paused = !myGame.paused;
+          });
+        },
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: myGame.paused
+            ? const Icon(Icons.play_arrow)
+            : const Icon(Icons.pause),
       ),
     );
   }

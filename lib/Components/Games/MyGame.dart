@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart' show FlameGame;
 import 'package:flame/components.dart' show Component;
-
 /**
  * Génère la configuration d'un jeu (sprites, backgrounds...)
  */
