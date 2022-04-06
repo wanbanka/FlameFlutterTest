@@ -19,12 +19,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends StateMVC<HomePage> {
   _HomePageState() : super(FlameController()) {
     flameCon = controller as FlameController;
-    myGame = MyGame(sprites: [MyCrate()]);
   }
 
   late FlameController flameCon;
 
-  late MyGame myGame;
+  MyGame myGame = MyGame(sprites: [MyCrate()]);
 
   @override
   Widget build(BuildContext context) {

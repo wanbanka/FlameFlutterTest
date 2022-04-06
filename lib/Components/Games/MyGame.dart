@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flame/game.dart' show FlameGame;
 import 'package:flame/components.dart' show Component;
 
@@ -18,5 +19,13 @@ class MyGame extends FlameGame {
     this.sprites.forEach((sprite) async {
       await add(sprite);
     });
+  }
+
+  //Change la couleur d'arrière-plan du jeu
+
+  @override
+  Color backgroundColor() {
+    // TODO: implement backgroundColor
+    return Color(0x000000);
   }
 }
