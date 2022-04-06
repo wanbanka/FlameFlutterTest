@@ -4,6 +4,8 @@ import 'package:mvc_application/view.dart' show StateMVC;
 import '../Controllers/FlameController.dart';
 
 import '../Components/Sprites/MyCrate.dart';
+import '../Components/Positions/Position1.dart';
+
 import '../Components/Games/MyGame.dart';
 import '../Components/GameWidgets/SetWidget1.dart';
 
@@ -23,7 +25,7 @@ class _HomePageState extends StateMVC<HomePage> {
 
   late FlameController flameCon;
 
-  MyGame myGame = MyGame(sprites: [MyCrate()]);
+  MyGame myGame = MyGame(sprites: [MyCrate(), Position1()]);
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +40,48 @@ class _HomePageState extends StateMVC<HomePage> {
           child: SetWidget1(game: myGame),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            myGame.paused = !myGame.paused;
-          });
-        },
-        tooltip: 'Increment',
-        child: myGame.paused
-            ? const Icon(Icons.play_arrow)
-            : const Icon(Icons.pause),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  myGame.paused = !myGame.paused;
+                });
+              },
+              tooltip: 'Increment',
+              child: myGame.paused
+                  ? const Icon(Icons.play_arrow)
+                  : const Icon(Icons.pause),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: OutlinedButton(
+              onPressed: () {
+                (myGame.sprites.first as MyCrate).walk(forward: false, x: 1);
+              },
+              onLongPress: () {
+                (myGame.sprites.first as MyCrate).walk(forward: false, x: 1);
+              },
+              child: Icon(Icons.arrow_left),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: OutlinedButton(
+              onPressed: () {
+                (myGame.sprites.first as MyCrate).walk(forward: true, x: 1);
+              },
+              onLongPress: () {
+                (myGame.sprites.first as MyCrate).walk(forward: true, x: 1);
+              },
+              child: Icon(Icons.arrow_right),
+            ),
+          )
+        ],
       ),
     );
   }
