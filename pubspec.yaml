@@ -64,9 +64,17 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/audio/Bomb_001.mp3
+    - assets/audio/DOH.mp3
+    - assets/audio/MAMA.mp3
+    - assets/audio/WAA.mp3
     - assets/images/Hurt.png
     - assets/images/Hurt2.png
     - assets/images/Idle.png
+    - assets/images/Mario_Sheet.png
+    - assets/images/Mario0.png
+    - assets/images/Mario1.png
+    - assets/images/Mario_normal.png
+    - assets/images/Mario_apeure.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

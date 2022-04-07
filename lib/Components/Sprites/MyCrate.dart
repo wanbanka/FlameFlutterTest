@@ -1,34 +1,36 @@
 import 'package:flame/components.dart'
-    show SpriteComponent, Sprite, Vector2, Anchor;
+    show
+        SpriteAnimationComponent,
+        SpriteAnimationData,
+        SpriteAnimation,
+        Vector2,
+        Anchor;
+
+import "dart:ui" show Image;
 
 /**
  * Génère un sprite
  */
 
-class MyCrate extends SpriteComponent {
-  MyCrate() : super();
+class MyCrate extends SpriteAnimationComponent {
+  MyCrate({required this.spriteSheet}) : super() {
+    this.animation = SpriteAnimation.fromFrameData(
+        spriteSheet,
+        SpriteAnimationData.sequenced(
+            amount: 4, stepTime: 0.1, textureSize: Vector2(72, 72)));
 
-  void walk({required bool forward, double? x, double? y}) {
+    this.size = Vector2.all(72);
+  }
+
+  late Image spriteSheet;
+
+  /*void walk({required bool forward, double? x, double? y}) {
     print("Coords: $x, $y");
 
     this.position.x += forward ? (x ?? 0) : -(x ?? 0);
 
     this.position.y += forward ? (y ?? 0) : -(y ?? 0);
-  }
-
-//Méthode d'initialisation du composant (ici pour modifier la
-//variable sprite)
-
-  @override
-  Future<void>? onLoad() async {
-    // TODO: implement onLoad
-    sprite = await Sprite.load("Idle.png");
-
-    size = //Etire le sprite à la taille souhaitée
-        Vector2(128, 64);
-    anchor = //Position relative du sprite sur l'écran
-        Anchor.center;
-  }
+  }*/
 
 //Modifie le composant lors du changement de taille
 //(modification de la variable position du sprite)

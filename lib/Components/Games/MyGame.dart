@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flame/game.dart' show FlameGame;
+import 'package:flame/game.dart' show FlameGame, HasDraggables;
 import 'package:flame/components.dart' show Component;
 /**
  * Génère la configuration d'un jeu (sprites, backgrounds...)
  */
 
-class MyGame extends FlameGame {
+class MyGame extends FlameGame with HasDraggables {
   MyGame({required this.sprites}) : super();
 
   List<Component> sprites;
@@ -15,16 +15,11 @@ class MyGame extends FlameGame {
   @override
   Future<void>? onLoad() async {
     // TODO: implement onLoad
+
+    print("OnLoad");
+
     this.sprites.forEach((sprite) async {
       await add(sprite);
     });
-  }
-
-  //Change la couleur d'arrière-plan du jeu
-
-  @override
-  Color backgroundColor() {
-    // TODO: implement backgroundColor
-    return Color(0x000000);
   }
 }
