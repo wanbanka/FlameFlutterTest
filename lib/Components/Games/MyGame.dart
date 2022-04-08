@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flame/game.dart' show FlameGame, HasDraggables;
-import 'package:flame/components.dart' show Component;
+import 'package:flame/game.dart' show FlameGame, HasDraggables, HasTappables;
+import 'package:flame/components.dart' show Component, ParallaxComponent;
 /**
  * Génère la configuration d'un jeu (sprites, backgrounds...)
  */
 
-class MyGame extends FlameGame with HasDraggables {
-  MyGame({required this.sprites}) : super();
+//HasDraggables: possibilités de faire des drag and drop
+
+class MyGame extends FlameGame with HasDraggables, HasTappables {
+  MyGame({required this.sprites, required this.parallax}) : super();
 
   List<Component> sprites;
+
+  List<ParallaxComponent> parallax;
 
 //Initialisation du jeu
 
@@ -17,6 +21,10 @@ class MyGame extends FlameGame with HasDraggables {
     // TODO: implement onLoad
 
     print("OnLoad");
+
+    this.parallax.forEach((parallax) async {
+      await add(parallax);
+    });
 
     this.sprites.forEach((sprite) async {
       await add(sprite);

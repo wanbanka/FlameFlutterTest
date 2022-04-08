@@ -2,49 +2,51 @@ import 'dart:ui' show Image;
 
 import 'package:flame/components.dart'
     show
-        SpriteAnimationComponent,
+        SpriteAnimationGroupComponent,
         SpriteAnimation,
         SpriteAnimationData,
         Vector2,
-        Anchor,
         Draggable;
 
 import 'package:flame/input.dart' show DragStartInfo, DragEndInfo;
 
-class Mario extends SpriteAnimationComponent with Draggable {
-  Mario({required this.spriteSheet, required this.onDragAudio}) : super() {
-    this.animation = SpriteAnimation.fromFrameData(
-        spriteSheet.first,
-        SpriteAnimationData.sequenced(
-            amount: 1, stepTime: 0.1, textureSize: Vector2(35, 43)));
+enum MarioState { normal, scared }
 
-    this.size = Vector2(35, 43);
+//Draggable: rend l'élément interactif avec un drag and drop
 
-    this.position = Vector2(250, 250);
-  }
+class Mario extends SpriteAnimationGroupComponent with Draggable {
+  Mario({required this.spriteSheet})
+      : super(
+            size: //Toujours spécifier la taille du sprite, sinon pas d'affichage
+                Vector2(35, 43),
+            position: Vector2(250, 250),
+            animations: //Toutes les animations disponibles pour le sprite
+                // en fonction de l'état de celui-ci
+                {
+              MarioState.normal: SpriteAnimation.fromFrameData(
+                  spriteSheet.first,
+                  SpriteAnimationData.sequenced(
+                      amount: 1, stepTime: 0.1, textureSize: Vector2(35, 43))),
+              MarioState.scared: SpriteAnimation.fromFrameData(
+                  spriteSheet.last,
+                  SpriteAnimationData.sequenced(
+                      amount: 3, stepTime: 0.1, textureSize: Vector2(35, 43)))
+            },
+            current: //Etat actuel du sprite
+                MarioState.normal);
 
   late List<Image> spriteSheet;
 
-  late Function onDragAudio;
-
   @override
   bool onDragStart(DragStartInfo infos) {
-    this.animation = SpriteAnimation.fromFrameData(
-        spriteSheet.last,
-        SpriteAnimationData.sequenced(
-            amount: 3, stepTime: 0.1, textureSize: Vector2(35, 43)));
-
-    this.onDragAudio();
+    this.current = MarioState.scared;
 
     return false;
   }
 
   @override
   bool onDragEnd(DragEndInfo infos) {
-    this.animation = SpriteAnimation.fromFrameData(
-        spriteSheet.first,
-        SpriteAnimationData.sequenced(
-            amount: 1, stepTime: 0.1, textureSize: Vector2(35, 43)));
+    this.current = MarioState.normal;
 
     return false;
   }

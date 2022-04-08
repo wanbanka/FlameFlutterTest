@@ -44,9 +44,22 @@ class FlameService {
    * Load several elements
    */
 
-  Future<List<Image>> loadSeveralPictures(List<String> pictures) async {
-    return Future.wait(pictures.map((picture) async {
-      return await this.loadOnePicture(picture);
+  Future<Map<String, Image>> loadSeveralPictures(
+      Map<String, String> pictures) async {
+    Map<String, Image> mapFinal = {};
+
+    List<Image> images = await Future.wait(pictures.values.map((value) async {
+      return await this.loadOnePicture(value);
     }));
+
+    int valIndex = 0;
+
+    pictures.keys.forEach((key) {
+      mapFinal.addAll({key: images[valIndex]});
+
+      valIndex++;
+    });
+
+    return Future.value(mapFinal);
   }
 }

@@ -75,6 +75,12 @@ flutter:
     - assets/images/Mario1.png
     - assets/images/Mario_normal.png
     - assets/images/Mario_apeure.png
+    - assets/images/ButtonANormal.png
+    - assets/images/ButtonAPressed.png
+    - assets/images/BGGame.png
+    - assets/images/Cat.png
+    - assets/images/Gate.png
+    - assets/images/Ball.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -7,6 +7,9 @@ import '../Controllers/FlameController.dart';
 
 import '../Components/Sprites/MyCrate.dart';
 import '../Components/Sprites/Mario.dart';
+import '../Components/Sprites/ButtonA.dart';
+
+import '../Components/Parallax/MyParallax.dart';
 
 import '../Components/Positions/Position1.dart';
 
@@ -33,21 +36,33 @@ class _HomePageState extends StateMVC<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Ui.Image>>(
-        future: flameCon
-            .loadSeveralPictures(["Mario_normal.png", "Mario_apeure.png"]),
+    return FutureBuilder<Map<String, Ui.Image>>(
+        future: flameCon.loadSeveralPictures({
+          "MarioNormal": "Mario_normal.png",
+          "MarioApeure": "Mario_apeure.png",
+          "ButtonANormal": "ButtonANormal.png",
+          "ButtonAPressed": "ButtonAPressed.png",
+          "Background": "BGGame.png",
+          "Gate": "Gate.png",
+          "Ball": "Ball.png"
+        }),
         builder: (context, snapshot) {
           print("Snapshot: ${snapshot.data}");
 
           if (snapshot.hasData) {
+            var data = snapshot.data!;
+
             myGame = MyGame(sprites: [
               Mario(
-                  spriteSheet: snapshot.data!,
-                  onDragAudio: () async {
-                    List<String> audios = ["DOH.mp3", "WAA.mp3", "MAMA.mp3"];
-
-                    await this.flameCon.randomAudio(audios);
-                  })
+                spriteSheet: [data["MarioNormal"]!, data["MarioApeure"]!],
+              ),
+              ButtonA(spriteSheet: [
+                data["ButtonANormal"]!,
+                data["ButtonAPressed"]!
+              ])
+            ], parallax: [
+              MyParallax(
+                  elements: [data["Background"]!, data["Gate"]!, data["Ball"]!])
             ]);
           }
 

@@ -29,7 +29,8 @@ class FlameController extends ControllerMVC {
    * Load several elements
    */
 
-  Future<List<Image>> loadSeveralPictures(List<String> pictures) async {
+  Future<Map<String, Image>> loadSeveralPictures(
+      Map<String, String> pictures) async {
     return await this.flameService.loadSeveralPictures(pictures);
   }
 
