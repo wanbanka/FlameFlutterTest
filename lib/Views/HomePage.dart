@@ -9,9 +9,15 @@ import '../Components/Sprites/MyCrate.dart';
 import '../Components/Sprites/Mario.dart';
 import '../Components/Sprites/ButtonA.dart';
 
+import '../Components/IsometricMaps/IsometricMap1.dart';
+
 import '../Components/Parallax/MyParallax.dart';
 
 import '../Components/Positions/Position1.dart';
+
+import '../Components/Shapes/Polygon.dart';
+import '../Components/Shapes/Rectangle.dart';
+import '../Components/Shapes/Circle.dart';
 
 import '../Components/Games/MyGame.dart';
 import '../Components/GameWidgets/SetWidget1.dart';
@@ -44,7 +50,8 @@ class _HomePageState extends StateMVC<HomePage> {
           "ButtonAPressed": "ButtonAPressed.png",
           "Background": "BGGame.png",
           "Gate": "Gate.png",
-          "Ball": "Ball.png"
+          "Ball": "Ball.png",
+          "Tileset": "tileset.png"
         }),
         builder: (context, snapshot) {
           print("Snapshot: ${snapshot.data}");
@@ -52,18 +59,11 @@ class _HomePageState extends StateMVC<HomePage> {
           if (snapshot.hasData) {
             var data = snapshot.data!;
 
-            myGame = MyGame(sprites: [
-              Mario(
-                spriteSheet: [data["MarioNormal"]!, data["MarioApeure"]!],
-              ),
-              ButtonA(spriteSheet: [
-                data["ButtonANormal"]!,
-                data["ButtonAPressed"]!
-              ])
-            ], parallax: [
-              MyParallax(
-                  elements: [data["Background"]!, data["Gate"]!, data["Ball"]!])
-            ]);
+            myGame = MyGame(
+                sprites: [],
+                parallax: [],
+                shapes: [],
+                tilesets: [IsometricMap1(tilesetMap: data["Tileset"]!)]);
           }
 
           return Scaffold(

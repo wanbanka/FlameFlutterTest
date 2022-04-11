@@ -15,23 +15,17 @@ class MyParallax extends ParallaxComponent {
     // TODO: implement onLoad
 
     final images = [
-      ParallaxImage(elements[1],
-          repeat: Ma.ImageRepeat.repeat,
-          alignment: Ma.Alignment.center,
-          fill: LayerFill.width),
-      ParallaxImage(elements.last,
-          repeat: Ma.ImageRepeat.repeatY,
-          alignment: Ma.Alignment.bottomLeft,
-          fill: LayerFill.none),
       ParallaxImage(elements.first,
-          repeat: Ma.ImageRepeat.repeatX,
-          alignment: Ma.Alignment.topRight,
-          fill: LayerFill.height)
+          alignment: Ma.Alignment.center,
+          repeat: Ma.ImageRepeat.repeat,
+          fill: LayerFill.height),
+      ParallaxImage(elements[1],
+          alignment: Ma.Alignment.bottomCenter, fill: LayerFill.none),
     ];
 
     final layers = images.map((image) {
       return ParallaxLayer(image,
-          velocityMultiplier: Vector2.all(images.indexOf(image) * 2.0));
+          velocityMultiplier: Vector2.all((images.indexOf(image) + 1) * 2.0));
     });
 
     parallax = Parallax(layers.toList(), baseVelocity: Vector2(50, 0));

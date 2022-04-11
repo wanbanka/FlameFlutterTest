@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart' show FlameGame, HasDraggables, HasTappables;
-import 'package:flame/components.dart' show Component, ParallaxComponent;
+import 'package:flame/components.dart'
+    show Component, ParallaxComponent, IsometricTileMapComponent;
+import 'package:flame/geometry.dart' show ShapeComponent;
 /**
  * Génère la configuration d'un jeu (sprites, backgrounds...)
  */
@@ -8,11 +10,20 @@ import 'package:flame/components.dart' show Component, ParallaxComponent;
 //HasDraggables: possibilités de faire des drag and drop
 
 class MyGame extends FlameGame with HasDraggables, HasTappables {
-  MyGame({required this.sprites, required this.parallax}) : super();
+  MyGame(
+      {required this.sprites,
+      required this.parallax,
+      required this.shapes,
+      required this.tilesets})
+      : super();
 
   List<Component> sprites;
 
   List<ParallaxComponent> parallax;
+
+  List<ShapeComponent> shapes;
+
+  List<IsometricTileMapComponent> tilesets;
 
 //Initialisation du jeu
 
@@ -22,12 +33,15 @@ class MyGame extends FlameGame with HasDraggables, HasTappables {
 
     print("OnLoad");
 
-    this.parallax.forEach((parallax) async {
-      await add(parallax);
-    });
+    List<dynamic> loadingElements = [
+      ...this.parallax,
+      ...this.tilesets,
+      ...this.sprites,
+      ...this.shapes
+    ];
 
-    this.sprites.forEach((sprite) async {
-      await add(sprite);
+    loadingElements.forEach((element) async {
+      await add(element);
     });
   }
 }
