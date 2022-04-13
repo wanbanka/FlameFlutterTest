@@ -24,10 +24,9 @@ class MyParallax extends ParallaxComponent {
     ];
 
     final layers = images.map((image) {
-      return ParallaxLayer(image,
-          velocityMultiplier: Vector2.all((images.indexOf(image) + 1) * 2.0));
+      return ParallaxLayer(image);
     });
 
-    parallax = Parallax(layers.toList(), baseVelocity: Vector2(50, 0));
+    parallax = Parallax(layers.toList());
   }
 }

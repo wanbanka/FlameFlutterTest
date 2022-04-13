@@ -5,20 +5,9 @@ import 'package:mvc_application/view.dart' show StateMVC;
 
 import '../Controllers/FlameController.dart';
 
-import '../Components/Sprites/MyCrate.dart';
-import '../Components/Sprites/Mario.dart';
-import '../Components/Sprites/ButtonA.dart';
-
-import '../Components/IsometricMaps/IsometricMap1.dart';
+import '../Components/Sprites/Cat.dart';
 
 import '../Components/Parallax/MyParallax.dart';
-
-import '../Components/Positions/Position1.dart';
-
-import '../Components/Shapes/Polygon.dart';
-import '../Components/Shapes/Rectangle.dart';
-import '../Components/Shapes/Circle.dart';
-
 import '../Components/Games/MyGame.dart';
 import '../Components/GameWidgets/SetWidget1.dart';
 
@@ -51,7 +40,12 @@ class _HomePageState extends StateMVC<HomePage> {
           "Background": "BGGame.png",
           "Gate": "Gate.png",
           "Ball": "Ball.png",
-          "Tileset": "tileset.png"
+          "Tileset": "tileset.png",
+          "Cat": "Cat_Idle.png",
+          "CatAttack": "Cat_Attack.png",
+          "CatDeath": "Cat_Death.png",
+          "CatHurt": "Cat_Hurt.png",
+          "CatWalk": "Cat_Walk.png",
         }),
         builder: (context, snapshot) {
           print("Snapshot: ${snapshot.data}");
@@ -59,11 +53,22 @@ class _HomePageState extends StateMVC<HomePage> {
           if (snapshot.hasData) {
             var data = snapshot.data!;
 
-            myGame = MyGame(
-                sprites: [],
-                parallax: [],
-                shapes: [],
-                tilesets: [IsometricMap1(tilesetMap: data["Tileset"]!)]);
+            print(data["Cat"]!);
+
+            myGame = MyGame(sprites: [
+              Cat(spriteSheet: {
+                CatStatus.normal: {"image": data["Cat"]!, "nb_sprites": 4},
+                CatStatus.attack: {
+                  "image": data["CatAttack"]!,
+                  "nb_sprites": 4
+                },
+                CatStatus.hurt: {"image": data["CatHurt"]!, "nb_sprites": 2},
+                CatStatus.death: {"image": data["CatDeath"]!, "nb_sprites": 4},
+                CatStatus.walk: {"image": data["CatWalk"]!, "nb_sprites": 5}
+              }, widthCat: 48, heightCat: 48)
+            ], parallax: [
+              MyParallax(elements: [data["Background"]!, data["Gate"]!])
+            ], shapes: [], tilesets: []);
           }
 
           return Scaffold(
