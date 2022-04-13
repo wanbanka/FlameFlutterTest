@@ -59,11 +59,9 @@ class _HomePageState extends StateMVC<HomePage> {
           if (snapshot.hasData) {
             var data = snapshot.data!;
 
-            myGame = MyGame(
-                sprites: [],
-                parallax: [],
-                shapes: [],
-                tilesets: [IsometricMap1(tilesetMap: data["Tileset"]!)]);
+            myGame = MyGame(sprites: [
+              Mario(spriteSheet: [data["MarioNormal"]!, data["MarioApeure"]!])
+            ], parallax: [], shapes: [], tilesets: []);
           }
 
           return Scaffold(

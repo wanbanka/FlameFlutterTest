@@ -1,15 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flame/game.dart' show FlameGame, HasDraggables, HasTappables;
+import 'package:flame/game.dart'
+    show FlameGame, HasDraggables, HasTappables, HasCollisionDetection;
 import 'package:flame/components.dart'
-    show Component, ParallaxComponent, IsometricTileMapComponent;
+    show PositionComponent, ParallaxComponent, IsometricTileMapComponent;
 import 'package:flame/geometry.dart' show ShapeComponent;
+
+import 'package:flame/collisions.dart' show ScreenHitbox;
+
 /**
  * Génère la configuration d'un jeu (sprites, backgrounds...)
  */
 
 //HasDraggables: possibilités de faire des drag and drop
 
-class MyGame extends FlameGame with HasDraggables, HasTappables {
+class MyGame extends FlameGame
+    with HasDraggables, HasTappables, HasCollisionDetection {
   MyGame(
       {required this.sprites,
       required this.parallax,
@@ -17,7 +21,7 @@ class MyGame extends FlameGame with HasDraggables, HasTappables {
       required this.tilesets})
       : super();
 
-  List<Component> sprites;
+  List<PositionComponent> sprites;
 
   List<ParallaxComponent> parallax;
 
@@ -43,5 +47,7 @@ class MyGame extends FlameGame with HasDraggables, HasTappables {
     loadingElements.forEach((element) async {
       await add(element);
     });
+
+    await add(ScreenHitbox());
   }
 }
