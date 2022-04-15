@@ -53,7 +53,7 @@ class _HomePageState extends StateMVC<HomePage> {
           if (snapshot.hasData) {
             var data = snapshot.data!;
 
-            print(data["Cat"]!);
+            print(data["CatWalk"]!);
 
             myGame = MyGame(sprites: [
               Cat(spriteSheet: {
@@ -63,7 +63,11 @@ class _HomePageState extends StateMVC<HomePage> {
                   "nb_sprites": 4
                 },
                 CatStatus.hurt: {"image": data["CatHurt"]!, "nb_sprites": 2},
-                CatStatus.death: {"image": data["CatDeath"]!, "nb_sprites": 4},
+                CatStatus.death: {
+                  "image": data["CatDeath"]!,
+                  "nb_sprites": 4,
+                  "step_time": 0.8
+                },
                 CatStatus.walk: {"image": data["CatWalk"]!, "nb_sprites": 5}
               }, widthCat: 48, heightCat: 48)
             ], parallax: [

@@ -28,7 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   mvc_application: ^8.10.1+2
-  flame: ^1.1.0
+  flame: ^1.1.1
   flame_audio: ^1.0.1
 
   flutter:

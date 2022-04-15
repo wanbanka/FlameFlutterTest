@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart' show Color, Offset;
+
 import 'package:flame/components.dart'
     show
         SpriteAnimationGroupComponent,
@@ -6,7 +10,8 @@ import 'package:flame/components.dart'
         Vector2,
         Tappable;
 
-import 'package:flame/effects.dart' show MoveEffect, EffectController;
+import 'package:flame/effects.dart'
+    show MoveByEffect, SequenceEffect, ColorEffect, EffectController;
 
 import 'package:flame/input.dart' show TapDownInfo, TapUpInfo;
 
@@ -20,16 +25,16 @@ class Cat extends SpriteAnimationGroupComponent with Tappable {
       : super(
             animations: {},
             current: CatStatus.normal,
-            size: Vector2(widthCat, heightCat),
             position: Vector2(0, 400),
+            size: Vector2(widthCat, heightCat),
             scale: Vector2.all(1.5)) {
     CatStatus.values.forEach((status) {
-      this.animations!.addAll({
+      this.animations?.addAll({
         status: SpriteAnimation.fromFrameData(
             this.spriteSheet[status]!["image"],
             SpriteAnimationData.sequenced(
                 amount: this.spriteSheet[status]!["nb_sprites"],
-                stepTime: 0.1,
+                stepTime: this.spriteSheet[status]!["step_time"] ?? 0.1,
                 textureSize: Vector2(widthCat, heightCat)))
       });
     });
@@ -47,18 +52,18 @@ class Cat extends SpriteAnimationGroupComponent with Tappable {
 
     this.current = CatStatus.walk;
 
+    var effect = SequenceEffect([
+      ColorEffect(
+          Color(0xFF0FF0), Offset(0.0, 0.8), EffectController(duration: 0.2)),
+      MoveByEffect(Vector2(50, 0), EffectController(duration: 1.5)),
+    ]);
+
+    unawaited(add(effect));
+
+    Future.delayed(Duration(milliseconds: 1500), () {
+      this.current = CatStatus.normal;
+    });
+
     return true;
-  }
-
-  @override
-  void update(double dt) {
-    // TODO: implement update
-
-    if (this.current == CatStatus.walk) {
-      final effect =
-          MoveEffect.by(Vector2(15, 0), EffectController(duration: 0.5));
-    }
-
-    super.update(dt);
   }
 }
