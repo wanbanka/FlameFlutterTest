@@ -1,4 +1,6 @@
-import 'package:flame/components.dart' show ParallaxComponent, Vector2;
+import 'package:flame/components.dart'
+    show ParallaxComponent, Vector2, PositionType;
+
 import 'package:flame/parallax.dart';
 
 import 'dart:ui' show Image;

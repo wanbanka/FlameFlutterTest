@@ -6,6 +6,11 @@ import 'package:mvc_application/view.dart' show StateMVC;
 import '../Controllers/FlameController.dart';
 
 import '../Components/Sprites/Cat.dart';
+import '../Components/Sprites/Bird.dart';
+
+import '../Components/Worlds/World1.dart';
+
+import '../Components/Cameras/Camera1.dart';
 
 import '../Components/Parallax/MyParallax.dart';
 import '../Components/Games/MyGame.dart';
@@ -46,6 +51,7 @@ class _HomePageState extends StateMVC<HomePage> {
           "CatDeath": "Cat_Death.png",
           "CatHurt": "Cat_Hurt.png",
           "CatWalk": "Cat_Walk.png",
+          "Bird": "Bird_Idle.png"
         }),
         builder: (context, snapshot) {
           print("Snapshot: ${snapshot.data}");
@@ -55,24 +61,35 @@ class _HomePageState extends StateMVC<HomePage> {
 
             print(data["CatWalk"]!);
 
-            myGame = MyGame(sprites: [
-              Cat(spriteSheet: {
-                CatStatus.normal: {"image": data["Cat"]!, "nb_sprites": 4},
-                CatStatus.attack: {
-                  "image": data["CatAttack"]!,
-                  "nb_sprites": 4
-                },
-                CatStatus.hurt: {"image": data["CatHurt"]!, "nb_sprites": 2},
-                CatStatus.death: {
-                  "image": data["CatDeath"]!,
-                  "nb_sprites": 4,
-                  "step_time": 0.8
-                },
-                CatStatus.walk: {"image": data["CatWalk"]!, "nb_sprites": 5}
-              }, widthCat: 48, heightCat: 48)
-            ], parallax: [
-              MyParallax(elements: [data["Background"]!, data["Gate"]!])
-            ], shapes: [], tilesets: []);
+            myGame = MyGame(
+              cameras: [
+                Camera1(
+                    worldToWatch: World1(sprites: [
+                  Cat(spriteSheet: {
+                    CatStatus.normal: {"image": data["Cat"]!, "nb_sprites": 4},
+                    CatStatus.attack: {
+                      "image": data["CatAttack"]!,
+                      "nb_sprites": 4
+                    },
+                    CatStatus.hurt: {
+                      "image": data["CatHurt"]!,
+                      "nb_sprites": 2
+                    },
+                    CatStatus.death: {
+                      "image": data["CatDeath"]!,
+                      "nb_sprites": 4,
+                      "step_time": 0.8
+                    },
+                    CatStatus.walk: {"image": data["CatWalk"]!, "nb_sprites": 5}
+                  }, widthCat: 48, heightCat: 48),
+                  Bird(spriteSheet: {
+                    BirdStatus.idle: {"image": data["Bird"]!, "nb_sprites": 4}
+                  }, widthBird: 32, heightBird: 32)
+                ], parallax: [
+                  MyParallax(elements: [data["Background"]!, data["Gate"]!])
+                ]))
+              ],
+            );
           }
 
           return Scaffold(

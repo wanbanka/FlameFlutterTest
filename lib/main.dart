@@ -3,6 +3,8 @@ import 'package:mvc_application/view.dart' show AppState, AppMVC;
 import 'Views/HomePage.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
 }
 

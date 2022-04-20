@@ -1,29 +1,36 @@
-import 'package:flutter/material.dart';
-import 'package:flame/game.dart' show FlameGame, HasDraggables, HasTappables;
-import 'package:flame/components.dart'
-    show Component, ParallaxComponent, IsometricTileMapComponent;
-import 'package:flame/geometry.dart' show ShapeComponent;
+import 'package:flame/game.dart'
+    show FlameGame, HasDraggables, HasTappables, HasCollisionDetection;
+
+import 'package:flame/components.dart';
+
+import 'package:flame/experimental.dart' show CameraComponent;
+
+import 'package:flame/input.dart'
+    show
+        TapUpInfo,
+        TapDownInfo,
+        TapDetector,
+        ScaleDetector,
+        ScaleStartInfo,
+        ScaleUpdateInfo,
+        ScaleEndInfo,
+        DragStartInfo;
+
 /**
  * Génère la configuration d'un jeu (sprites, backgrounds...)
  */
 
 //HasDraggables: possibilités de faire des drag and drop
 
-class MyGame extends FlameGame with HasDraggables, HasTappables {
-  MyGame(
-      {required this.sprites,
-      required this.parallax,
-      required this.shapes,
-      required this.tilesets})
-      : super();
+class MyGame extends FlameGame
+    with HasDraggables, HasTappables, HasCollisionDetection, ScaleDetector {
+  MyGame({
+    required this.cameras,
+  }) : super();
 
-  List<Component> sprites;
+  List<CameraComponent> cameras;
 
-  List<ParallaxComponent> parallax;
-
-  List<ShapeComponent> shapes;
-
-  List<IsometricTileMapComponent> tilesets;
+  late double startZoom;
 
 //Initialisation du jeu
 
@@ -33,15 +40,29 @@ class MyGame extends FlameGame with HasDraggables, HasTappables {
 
     print("OnLoad");
 
-    List<dynamic> loadingElements = [
-      ...this.parallax,
-      ...this.tilesets,
-      ...this.sprites,
-      ...this.shapes
-    ];
-
-    loadingElements.forEach((element) async {
+    this.cameras.forEach((element) async {
       await add(element);
     });
+  }
+
+  @override
+  void onScaleStart(ScaleStartInfo info) {
+    // TODO: implement onScaleStart
+
+    startZoom = camera.zoom;
+  }
+
+  @override
+  void onScaleUpdate(ScaleUpdateInfo info) {
+    // TODO: implement onScaleUpdate
+
+    final currentScale = info.scale.global;
+
+    if (!currentScale.isIdentity()) {
+      camera.zoom = startZoom * currentScale.y;
+    } else {
+      camera.translateBy(-info.delta.game);
+      camera.snap();
+    }
   }
 }
