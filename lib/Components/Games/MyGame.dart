@@ -1,5 +1,12 @@
+import 'package:flutter/material.dart' show TextStyle, Colors;
+
 import 'package:flame/game.dart'
-    show FlameGame, HasDraggables, HasTappables, HasCollisionDetection;
+    show
+        FlameGame,
+        HasDraggables,
+        HasTappables,
+        HasCollisionDetection,
+        TextPaint;
 
 import 'package:flame/components.dart';
 
@@ -15,6 +22,8 @@ import 'package:flame/input.dart'
         ScaleUpdateInfo,
         ScaleEndInfo,
         DragStartInfo;
+
+import 'dart:ui' show Canvas;
 
 /**
  * Génère la configuration d'un jeu (sprites, backgrounds...)

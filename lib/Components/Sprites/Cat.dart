@@ -4,10 +4,14 @@ import 'package:welcomeback/Components/Worlds/World1.dart';
 
 import '../Games/MyGame.dart';
 
+import 'Bird.dart';
+
+import '../TextBoxes/MyTextBox.dart';
+
 import 'package:flame/components.dart';
 
 import 'package:flame/effects.dart'
-    show MoveByEffect, SequenceEffect, EffectController;
+    show MoveToEffect, SequenceEffect, EffectController;
 
 import 'package:flame/input.dart'
     show TapDownInfo, TapUpInfo, DragStartInfo, DragUpdateInfo, DragEndInfo;
@@ -53,6 +57,8 @@ class Cat extends SpriteAnimationGroupComponent
 
   bool get isDragging => dragDeltaPosition != null;
 
+  bool visited = false;
+
   @override
   Future<void>? onLoad() async {
     // TODO: implement onLoad
@@ -63,10 +69,19 @@ class Cat extends SpriteAnimationGroupComponent
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+  void onCollision(
+      Set<Vector2> intersectionPoints, PositionComponent other) async {
     // TODO: implement onCollision
 
     print("Collision found: $intersectionPoints of $other");
+
+    if (!visited && other is Bird) {
+      var textBox = MyTextBox("Tiens, un oiseau ! Je vais le manger");
+
+      await gameRef.add(textBox);
+
+      visited = true;
+    }
   }
 
   @override
@@ -124,7 +139,7 @@ class Cat extends SpriteAnimationGroupComponent
     this.current = CatStatus.walk;
 
     var effect = SequenceEffect([
-      MoveByEffect(Vector2(50, 0), EffectController(duration: 1.5)),
+      MoveToEffect(position, EffectController(duration: 1.5)),
     ]);
 
     unawaited(add(effect));
