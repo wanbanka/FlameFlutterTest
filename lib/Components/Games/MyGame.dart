@@ -43,6 +43,8 @@ class MyGame extends FlameGame
     this.cameras.forEach((element) async {
       await add(element);
     });
+
+    debugMode = true;
   }
 
   @override

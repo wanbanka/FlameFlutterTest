@@ -51,7 +51,10 @@ class _HomePageState extends StateMVC<HomePage> {
           "CatDeath": "Cat_Death.png",
           "CatHurt": "Cat_Hurt.png",
           "CatWalk": "Cat_Walk.png",
-          "Bird": "Bird_Idle.png"
+          "Bird": "Bird_Idle.png",
+          "Sky1": "BlueSky1.jpg",
+          "Sky2": "BlueSky2.jpg",
+          "Sky3": "BlueSky3.jpg",
         }),
         builder: (context, snapshot) {
           print("Snapshot: ${snapshot.data}");

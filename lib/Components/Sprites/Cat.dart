@@ -57,7 +57,9 @@ class Cat extends SpriteAnimationGroupComponent
   Future<void>? onLoad() async {
     // TODO: implement onLoad
 
-    await add(RectangleHitbox());
+    await add(RectangleHitbox(
+        size: Vector2(this.widthCat, this.heightCat / 2),
+        position: Vector2(0, this.heightCat / 2)));
   }
 
   @override

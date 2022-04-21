@@ -84,6 +84,9 @@ flutter:
     - assets/images/Cat_Idle.png
     - assets/images/Cat_Walk.png
     - assets/images/Bird_Idle.png
+    - assets/images/BlueSky1.jpg
+    - assets/images/BlueSky2.jpg
+    - assets/images/BlueSky3.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
