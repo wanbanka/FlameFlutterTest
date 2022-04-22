@@ -23,7 +23,11 @@ import 'package:flame/input.dart'
         ScaleEndInfo,
         DragStartInfo;
 
+import '../Worlds/World1.dart';
+
 import 'dart:ui' show Canvas;
+
+import '../Layers/GameLayer.dart';
 
 /**
  * Génère la configuration d'un jeu (sprites, backgrounds...)
@@ -39,6 +43,8 @@ class MyGame extends FlameGame
 
   List<CameraComponent> cameras;
 
+  //GameLayer? gameLayer;
+
   late double startZoom;
 
 //Initialisation du jeu
@@ -52,6 +58,8 @@ class MyGame extends FlameGame
     this.cameras.forEach((element) async {
       await add(element);
     });
+
+    // gameLayer = GameLayer(world: (this.cameras.first.world as World1));
 
     debugMode = true;
   }
@@ -75,5 +83,13 @@ class MyGame extends FlameGame
       camera.translateBy(-info.delta.game);
       camera.snap();
     }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    // TODO: implement render
+    super.render(canvas);
+
+    //gameLayer!.render(canvas);
   }
 }

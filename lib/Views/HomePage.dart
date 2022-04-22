@@ -12,6 +12,8 @@ import '../Components/Worlds/World1.dart';
 
 import '../Components/Cameras/Camera1.dart';
 
+import '../Components/Particles/Particle1.dart';
+
 import '../Components/Parallax/MyParallax.dart';
 import '../Components/Games/MyGame.dart';
 import '../Components/GameWidgets/SetWidget1.dart';
@@ -90,7 +92,7 @@ class _HomePageState extends StateMVC<HomePage> {
                   }, widthBird: 32, heightBird: 32)
                 ], parallax: [
                   MyParallax(elements: [data["Background"]!, data["Gate"]!])
-                ]))
+                ], particles: []))
               ],
             );
           }
