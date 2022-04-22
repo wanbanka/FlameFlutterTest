@@ -37,6 +37,22 @@ class _HomePageState extends StateMVC<HomePage> {
   late MyGame myGame;
 
   @override
+  void initState() {
+    // TODO: implement initState
+
+    flameCon.playBackgroundMusic("AfroBeat.wav");
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    flameCon.disposeBgAudio();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, Ui.Image>>(
         future: flameCon.loadSeveralPictures({
@@ -113,7 +129,10 @@ class _HomePageState extends StateMVC<HomePage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FloatingActionButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            await flameCon.resumeOrPauseBgMusic(
+                                paused: myGame.paused);
+
                             myGame.paused = !myGame.paused;
                           },
                           tooltip: 'Increment',

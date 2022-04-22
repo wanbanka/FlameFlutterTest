@@ -43,4 +43,28 @@ class FlameController extends ControllerMVC {
 
     await this.flameService.loadOneAudio(audios[rng.nextInt(audios.length)]);
   }
+
+/**
+ * Play and loop music in background
+ */
+
+  Future<void> playBackgroundMusic(String audio) async {
+    await flameService.loadBackgroundMusic(audio);
+  }
+
+  /**
+   * Resume or pause the bg music
+   */
+
+  Future<void> resumeOrPauseBgMusic({required bool paused}) async {
+    await flameService.resumeOrPauseBgMusic(paused: paused);
+  }
+
+/**
+ * Dispose the background audio
+ */
+
+  void disposeBgAudio() {
+    flameService.disposeBgAudio();
+  }
 }

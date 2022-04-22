@@ -29,7 +29,7 @@ environment:
 dependencies:
   mvc_application: ^8.10.1+2
   flame: ^1.1.1
-  flame_audio: ^1.0.1
+  flame_audio: ^1.0.2
 
   flutter:
     sdk: flutter
@@ -67,6 +67,7 @@ flutter:
     - assets/audio/DOH.mp3
     - assets/audio/MAMA.mp3
     - assets/audio/WAA.mp3
+    - assets/audio/AfroBeat.wav
     - assets/images/Mario_Sheet.png
     - assets/images/Mario0.png
     - assets/images/Mario1.png

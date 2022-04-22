@@ -24,6 +24,34 @@ class FlameService {
     await FlameAudio.play(audio);
   }
 
+/**
+ * Load and loop in background an audio file
+ */
+
+  Future<void> loadBackgroundMusic(String audio) async {
+    FlameAudio.bgm.initialize();
+
+    await FlameAudio.bgm.load(audio);
+
+    await FlameAudio.bgm.play(audio, volume: 0.25);
+  }
+
+  /**
+   * Resume or pause the bg music
+   */
+
+  Future<void> resumeOrPauseBgMusic({required bool paused}) async {
+    await (paused ? FlameAudio.bgm.resume() : FlameAudio.bgm.pause());
+  }
+
+/**
+ * Dispose the background music
+ */
+
+  void disposeBgAudio() {
+    FlameAudio.bgm.dispose();
+  }
+
   /**
    * Load several elements
    */
