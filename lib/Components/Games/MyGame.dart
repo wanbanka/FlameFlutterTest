@@ -23,11 +23,7 @@ import 'package:flame/input.dart'
         ScaleEndInfo,
         DragStartInfo;
 
-import '../Worlds/World1.dart';
-
 import 'dart:ui' show Canvas;
-
-import '../Layers/GameLayer.dart';
 
 /**
  * Génère la configuration d'un jeu (sprites, backgrounds...)
@@ -62,6 +58,8 @@ class MyGame extends FlameGame
     // gameLayer = GameLayer(world: (this.cameras.first.world as World1));
 
     debugMode = true;
+
+    camera.zoom = 1.0;
   }
 
   @override

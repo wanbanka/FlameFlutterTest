@@ -15,7 +15,10 @@ import '../Components/Cameras/Camera1.dart';
 import '../Components/Particles/Particle1.dart';
 
 import '../Components/Parallax/MyParallax.dart';
+
 import '../Components/Games/MyGame.dart';
+import '../Components/Games/ForgeGame.dart';
+
 import '../Components/GameWidgets/SetWidget1.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,7 +37,7 @@ class _HomePageState extends StateMVC<HomePage> {
 
   late FlameController flameCon;
 
-  late MyGame myGame;
+  late ForgeGame myGame;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +69,26 @@ class _HomePageState extends StateMVC<HomePage> {
 
             print(data["CatWalk"]!);
 
-            myGame = MyGame(
+            var cat = Cat(spriteSheet: {
+              CatStatus.normal: {"image": data["Cat"]!, "nb_sprites": 4},
+              CatStatus.attack: {"image": data["CatAttack"]!, "nb_sprites": 4},
+              CatStatus.hurt: {"image": data["CatHurt"]!, "nb_sprites": 2},
+              CatStatus.death: {
+                "image": data["CatDeath"]!,
+                "nb_sprites": 4,
+                "step_time": 0.8
+              },
+              CatStatus.walk: {"image": data["CatWalk"]!, "nb_sprites": 5}
+            }, widthCat: 48, heightCat: 48);
+
+            myGame = ForgeGame(
+              bird: Bird(spriteSheet: {
+                BirdStatus.idle: {"image": data["Bird"]!, "nb_sprites": 4}
+              }, widthBird: 32, heightBird: 32),
+              cat: cat,
+            );
+
+            /*MyGame(
               cameras: [
                 Camera1(
                     worldToWatch: World1(sprites: [
@@ -94,7 +116,8 @@ class _HomePageState extends StateMVC<HomePage> {
                   MyParallax(elements: [data["Background"]!, data["Gate"]!])
                 ], particles: []))
               ],
-            );
+            )*/
+
           }
 
           return Scaffold(
@@ -121,6 +144,24 @@ class _HomePageState extends StateMVC<HomePage> {
                               ? const Icon(Icons.play_arrow)
                               : const Icon(Icons.pause),
                         ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FloatingActionButton(
+                            onPressed: () {
+                              myGame.cat.position.x -= 1;
+                            },
+                            tooltip: 'Increment',
+                            child: const Icon(Icons.arrow_back)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FloatingActionButton(
+                            onPressed: () async {
+                              await (myGame.cat as Cat).walk();
+                            },
+                            tooltip: 'Increment',
+                            child: const Icon(Icons.arrow_forward)),
                       ),
                     ]
                   : [],

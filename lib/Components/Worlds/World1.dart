@@ -4,12 +4,9 @@ import 'package:flame/components.dart'
     show ParallaxComponent, Component, ParticleSystemComponent;
 
 class World1 extends World {
-  World1(
-      {required this.parallax, required this.sprites, required this.particles});
+  World1({required this.parallax, required this.particles});
 
   List<ParallaxComponent> parallax;
-
-  List<Component> sprites;
 
   List<ParticleSystemComponent> particles;
 
@@ -17,11 +14,7 @@ class World1 extends World {
   Future<void>? onLoad() async {
     // TODO: implement onLoad
 
-    List<dynamic> loadedElements = [
-      ...this.parallax,
-      ...this.sprites,
-      ...this.particles
-    ];
+    List<dynamic> loadedElements = [...this.parallax, ...this.particles];
 
     loadedElements.forEach((element) async {
       await add(element);

@@ -1,28 +1,19 @@
 import 'dart:async';
 
-import 'package:welcomeback/Components/Worlds/World1.dart';
-
-import '../Games/MyGame.dart';
-
-import 'Bird.dart';
-
-import '../TextBoxes/MyTextBox.dart';
+import '../Games/ForgeGame.dart';
 
 import 'package:flame/components.dart';
 
 import 'package:flame/effects.dart'
-    show MoveToEffect, SequenceEffect, EffectController;
+    show MoveByEffect, SequenceEffect, EffectController;
 
 import 'package:flame/input.dart'
-    show TapDownInfo, TapUpInfo, DragStartInfo, DragUpdateInfo, DragEndInfo;
-
-import 'package:flame/collisions.dart'
-    show CollisionCallbacks, RectangleHitbox, CollisionType;
+    show DragEndInfo, DragStartInfo, DragUpdateInfo;
 
 enum CatStatus { normal, attack, death, walk, hurt }
 
 class Cat extends SpriteAnimationGroupComponent
-    with Tappable, Draggable, HasGameRef<MyGame>, CollisionCallbacks {
+    with Draggable, HasGameRef<ForgeGame> {
   Cat(
       {required this.spriteSheet,
       required this.widthCat,
@@ -53,49 +44,29 @@ class Cat extends SpriteAnimationGroupComponent
 
   Map<CatStatus, Map<String, dynamic>> spriteSheet;
 
+  Future<void> walk() async {
+    this.current = CatStatus.walk;
+
+    var effect = SequenceEffect([
+      MoveByEffect(Vector2(50, 0), EffectController(duration: 1.5)),
+    ]);
+
+    unawaited(add(effect));
+
+    Future.delayed(Duration(milliseconds: 1500), () {
+      this.current = CatStatus.normal;
+    });
+  }
+
   Vector2? dragDeltaPosition;
 
   bool get isDragging => dragDeltaPosition != null;
-
-  bool visited = false;
-
-  @override
-  Future<void>? onLoad() async {
-    // TODO: implement onLoad
-
-    await add(RectangleHitbox(
-        size: Vector2(this.widthCat, this.heightCat / 2),
-        position: Vector2(0, this.heightCat / 2)));
-  }
-
-  @override
-  void onCollision(
-      Set<Vector2> intersectionPoints, PositionComponent other) async {
-    // TODO: implement onCollision
-
-    print("Collision found: $intersectionPoints of $other");
-
-    if (!visited && other is Bird) {
-      var textBox = MyTextBox("Tiens, un oiseau ! Je vais le manger");
-
-      await gameRef.add(textBox);
-
-      visited = true;
-    }
-  }
-
-  @override
-  void onCollisionEnd(PositionComponent other) {
-    // TODO: implement onCollisionEnd
-
-    print("No more collisions with $other");
-  }
 
   @override
   bool onDragStart(DragStartInfo info) {
     // TODO: implement onDragStart
 
-    dragDeltaPosition = info.eventPosition.game - position;
+    dragDeltaPosition = info.eventPosition.game - this.position;
 
     return true;
   }
@@ -107,7 +78,7 @@ class Cat extends SpriteAnimationGroupComponent
     if (isDragging) {
       final localCoords = info.eventPosition.game;
 
-      position = localCoords - dragDeltaPosition!;
+      this.position = localCoords - dragDeltaPosition!;
     }
 
     return true;
@@ -126,43 +97,6 @@ class Cat extends SpriteAnimationGroupComponent
   bool onDragCancel() {
     // TODO: implement onDragCancel
     dragDeltaPosition = null;
-
-    return true;
-  }
-
-  @override
-  bool onTapUp(TapUpInfo info) {
-    // TODO: implement onTapUp
-
-    print("Player tap up on ${info.eventPosition.game}");
-
-    this.current = CatStatus.walk;
-
-    var effect = SequenceEffect([
-      MoveToEffect(position, EffectController(duration: 1.5)),
-    ]);
-
-    unawaited(add(effect));
-
-    var parallaxSearch =
-        (gameRef.cameras.first.world as World1).parallax.first.parallax;
-
-    parallaxSearch?.baseVelocity = Vector2(50, 0);
-
-    Future.delayed(Duration(milliseconds: 1500), () {
-      this.current = CatStatus.normal;
-
-      parallaxSearch?.baseVelocity = Vector2.zero();
-    });
-
-    return true;
-  }
-
-  @override
-  bool onTapDown(TapDownInfo info) {
-    // TODO: implement onTapDown
-
-    print("Player tap down on ${info.eventPosition.game}");
 
     return true;
   }

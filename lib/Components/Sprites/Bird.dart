@@ -46,10 +46,5 @@ class Bird extends SpriteAnimationGroupComponent
   @override
   Future<void>? onLoad() async {
     // TODO: implement onLoad
-
-    await add(RectangleHitbox(
-        size: Vector2(this.widthBird / 2, this.heightBird),
-        position: Vector2(this.widthBird / 4, 0))
-      ..collisionType = CollisionType.passive);
   }
 }
