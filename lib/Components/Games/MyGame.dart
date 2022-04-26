@@ -13,21 +13,13 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart' show CameraComponent;
 
 import 'package:flame/input.dart'
-    show
-        TapUpInfo,
-        TapDownInfo,
-        TapDetector,
-        ScaleDetector,
-        ScaleStartInfo,
-        ScaleUpdateInfo,
-        ScaleEndInfo,
-        DragStartInfo;
+    show ScaleDetector, ScaleStartInfo, ScaleUpdateInfo;
 
-import '../Worlds/World1.dart';
+import 'package:flame_bloc/flame_bloc.dart';
+
+import '../Blocs/InventoryBloc.dart';
 
 import 'dart:ui' show Canvas;
-
-import '../Layers/GameLayer.dart';
 
 /**
  * Génère la configuration d'un jeu (sprites, backgrounds...)
@@ -36,7 +28,12 @@ import '../Layers/GameLayer.dart';
 //HasDraggables: possibilités de faire des drag and drop
 
 class MyGame extends FlameGame
-    with HasDraggables, HasTappables, HasCollisionDetection, ScaleDetector {
+    with
+        FlameBloc,
+        HasDraggables,
+        HasTappables,
+        HasCollisionDetection,
+        ScaleDetector {
   MyGame({
     required this.cameras,
   }) : super();
@@ -46,6 +43,12 @@ class MyGame extends FlameGame
   //GameLayer? gameLayer;
 
   late double startZoom;
+
+  void selectWeapon() {
+    read<InventoryBloc>().addWeapon();
+
+    print("Change weapon");
+  }
 
 //Initialisation du jeu
 

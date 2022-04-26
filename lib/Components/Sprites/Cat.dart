@@ -16,13 +16,23 @@ import 'package:flame/effects.dart'
 import 'package:flame/input.dart'
     show TapDownInfo, TapUpInfo, DragStartInfo, DragUpdateInfo, DragEndInfo;
 
-import 'package:flame/collisions.dart'
-    show CollisionCallbacks, RectangleHitbox, CollisionType;
+import 'package:flame/collisions.dart' show CollisionCallbacks, RectangleHitbox;
+
+import 'package:flame_bloc/flame_bloc.dart';
+
+import '../Blocs/InventoryBloc.dart';
+
+import '../States/InventoryState.dart';
 
 enum CatStatus { normal, attack, death, walk, hurt }
 
 class Cat extends SpriteAnimationGroupComponent
-    with Tappable, Draggable, HasGameRef<MyGame>, CollisionCallbacks {
+    with
+        BlocComponent<InventoryBloc, InventoryState>,
+        Tappable,
+        Draggable,
+        HasGameRef<MyGame>,
+        CollisionCallbacks {
   Cat(
       {required this.spriteSheet,
       required this.widthCat,
@@ -60,6 +70,12 @@ class Cat extends SpriteAnimationGroupComponent
   bool visited = false;
 
   @override
+  void onNewState(InventoryState state) {
+    // TODO: implement onNewState
+    print(state.weapon);
+  }
+
+  @override
   Future<void>? onLoad() async {
     // TODO: implement onLoad
 
@@ -73,12 +89,12 @@ class Cat extends SpriteAnimationGroupComponent
       Set<Vector2> intersectionPoints, PositionComponent other) async {
     // TODO: implement onCollision
 
-    print("Collision found: $intersectionPoints of $other");
-
     if (!visited && other is Bird) {
       var textBox = MyTextBox("Tiens, un oiseau ! Je vais le manger");
 
       await gameRef.add(textBox);
+
+      gameRef.selectWeapon();
 
       visited = true;
     }
